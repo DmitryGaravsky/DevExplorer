@@ -1,5 +1,9 @@
 ﻿namespace DevExplorer.Views {
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows.Forms;
     using DevExplorer.DataModel;
+    using DevExplorer.DataModel.Extensions;
     using DevExplorer.ViewModels;
     using DevExpress.XtraEditors;
     using DevExpress.XtraEditors.ViewInfo;
@@ -9,28 +13,53 @@
         public FolderView() {
             InitializeComponent();
             if(!mvvmContext.IsDesignMode)
-                InitializeNavigation();
-            gridView.CustomDrawCell += gridView1_CustomDrawCell;
+                InitializeBindings();
+            gridView.CustomDrawCell += gridView_CustomDrawCell;
+            gridView.KeyDown += gridView_KeyDown;
+            gridView.KeyPress += gridView_KeyPress;
         }
-        void gridView1_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e) {
+        protected override void OnLoad(System.EventArgs e) {
+            base.OnLoad(e);
+            gridControl.Focus();
+        }
+        void gridView_KeyDown(object sender, KeyEventArgs e) {
+            if(e.KeyCode == Keys.Escape)
+                searchControl.ClearFilter();
+        }
+        void gridView_KeyPress(object sender, KeyPressEventArgs e) {
+            if(char.IsLetterOrDigit(e.KeyChar))
+                searchControl.StartSearch(e.KeyChar);
+        }
+        void gridView_CustomDrawCell(object sender, DevExpress.XtraGrid.Views.Base.RowCellCustomDrawEventArgs e) {
             if(e.Column.FieldName == "Name" && gridView.IsDataRow(e.RowHandle)) {
                 var folder = gridView.GetRow(e.RowHandle) as FolderItem;
                 if(!folder.IsParentFolder()) {
                     var cell = (GridCellInfo)e.Cell;
-                    ((TextEditViewInfo)cell.ViewInfo).ContextImage = (System.Drawing.Image)folder.Image;
+                    ((TextEditViewInfo)cell.ViewInfo).ContextImage = (Image)folder.Image;
                 }
             }
         }
-        void InitializeNavigation() {
+        void InitializeBindings() {
             var fluent = mvvmContext.OfType<FolderViewModel>();
-            fluent.SetBinding(gridControl,
-                gc => gc.DataSource, x => x.Files);
+            fluent.SetBinding(gridControl, gc => gc.DataSource, x => x.Files);
             //
-            fluent.BindCommand(backButton, x => x.Back());
+            fluent.SetBinding(gridView, gv => gv.FocusedRowHandle, x => x.SelectedItem,
+                    item => gridView.FindRow(item),
+                    rowHandle => gridView.GetRow(rowHandle) as FolderItem);
+            //
+            fluent.WithKeys(gridView, new Keys[] { Keys.Enter, Keys.Alt | Keys.Right })
+                .KeysToCommand(x => x.Open(null), (KeyEventArgs args) => gridView.GetFocusedRow() as FolderItem);
+            fluent.WithKeys(gridView, new Keys[] { Keys.Back, Keys.Alt | Keys.Left })
+                .KeysToCommand(x => x.Back());
+            fluent.WithEvent<CancelEventArgs>(searchControl, "Accept")
+                .EventToCommand(x => x.Open(null),
+                    (CancelEventArgs args) => args.AcceptFolderItem(searchControl.Text));
             //
             mvvmContext.AttachBehavior<OpenByRowDoubleClick>(gridView);
-            mvvmContext.AttachBehavior<OpenByEnterKey>(gridView);
-            mvvmContext.AttachBehavior<BackByBackspaceKey>(gridView);
+            fluent.WithCommand(x => x.Back())
+                .Bind(btnBack);
+            fluent.WithCommand(x => x.Open(null))
+                .After(() => searchControl.ResetSearch());
         }
     }
 }

@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Collections.Generic;
     using DevExplorer.DataModel;
+    using DevExplorer.DataModel.Extensions;
 
     public interface IRecentFoldersQueryCriteria : IQueryCriteria<Folder> {
         int? Top { get; }

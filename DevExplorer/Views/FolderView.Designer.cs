@@ -26,8 +26,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FolderView));
             this.layoutControl1 = new DevExpress.XtraLayout.LayoutControl();
-            this.backButton = new DevExpress.XtraEditors.SimpleButton();
-            this.searchControl1 = new DevExpress.XtraEditors.SearchControl();
+            this.btnOpen = new DevExpress.XtraEditors.SimpleButton();
+            this.btnBack = new DevExpress.XtraEditors.SimpleButton();
+            this.searchControl = new CustomSearchControl();
             this.gridControl = new DevExpress.XtraGrid.GridControl();
             this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.colName = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -36,10 +37,11 @@
             this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
             this.mvvmContext = new DevExpress.Utils.MVVM.MVVMContext(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.searchControl1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).BeginInit();
@@ -47,14 +49,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mvvmContext)).BeginInit();
             this.SuspendLayout();
             // 
             // layoutControl1
             // 
             this.layoutControl1.AllowCustomization = false;
-            this.layoutControl1.Controls.Add(this.backButton);
-            this.layoutControl1.Controls.Add(this.searchControl1);
+            this.layoutControl1.Controls.Add(this.btnOpen);
+            this.layoutControl1.Controls.Add(this.btnBack);
+            this.layoutControl1.Controls.Add(this.searchControl);
             this.layoutControl1.Controls.Add(this.gridControl);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
@@ -65,28 +69,41 @@
             this.layoutControl1.TabIndex = 0;
             this.layoutControl1.Text = "layoutControl1";
             // 
+            // btnOpen
+            // 
+            this.btnOpen.AutoWidthInLayoutControl = true;
+            this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
+            this.btnOpen.Location = new System.Drawing.Point(40, 12);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(24, 22);
+            this.btnOpen.StyleController = this.layoutControl1;
+            this.btnOpen.TabIndex = 7;
+            // 
             // backButton
             // 
-            this.backButton.AutoWidthInLayoutControl = true;
-            this.backButton.Image = ((System.Drawing.Image)(resources.GetObject("backButton.Image")));
-            this.backButton.Location = new System.Drawing.Point(12, 12);
-            this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(24, 22);
-            this.backButton.StyleController = this.layoutControl1;
-            this.backButton.TabIndex = 6;
+            this.btnBack.AutoWidthInLayoutControl = true;
+            this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("backButton.Image")));
+            this.btnBack.Location = new System.Drawing.Point(12, 12);
+            this.btnBack.Name = "backButton";
+            this.btnBack.Size = new System.Drawing.Size(24, 22);
+            this.btnBack.StyleController = this.layoutControl1;
+            this.btnBack.TabIndex = 6;
             // 
-            // searchControl1
+            // searchControl
             // 
-            this.searchControl1.Client = this.gridControl;
-            this.searchControl1.Location = new System.Drawing.Point(40, 12);
-            this.searchControl1.Name = "searchControl1";
-            this.searchControl1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.searchControl.Client = this.gridControl;
+            this.searchControl.Location = new System.Drawing.Point(68, 12);
+            this.searchControl.Name = "searchControl";
+            this.searchControl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Repository.ClearButton(),
             new DevExpress.XtraEditors.Repository.SearchButton()});
-            this.searchControl1.Properties.Client = this.gridControl;
-            this.searchControl1.Size = new System.Drawing.Size(605, 20);
-            this.searchControl1.StyleController = this.layoutControl1;
-            this.searchControl1.TabIndex = 5;
+            this.searchControl.Properties.Client = this.gridControl;
+            this.searchControl.Properties.FindDelay = 250;
+            this.searchControl.Properties.ImmediatePopup = false;
+            this.searchControl.Properties.ShowDropDown = DevExpress.XtraEditors.Controls.ShowDropDown.Never;
+            this.searchControl.Size = new System.Drawing.Size(577, 20);
+            this.searchControl.StyleController = this.layoutControl1;
+            this.searchControl.TabIndex = 5;
             // 
             // gridControl
             // 
@@ -136,7 +153,8 @@
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutControlItem1,
             this.layoutControlItem2,
-            this.layoutControlItem3});
+            this.layoutControlItem3,
+            this.layoutControlItem4});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Size = new System.Drawing.Size(657, 323);
@@ -153,21 +171,30 @@
             // 
             // layoutControlItem2
             // 
-            this.layoutControlItem2.Control = this.searchControl1;
-            this.layoutControlItem2.Location = new System.Drawing.Point(28, 0);
+            this.layoutControlItem2.Control = this.searchControl;
+            this.layoutControlItem2.Location = new System.Drawing.Point(56, 0);
             this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(609, 26);
+            this.layoutControlItem2.Size = new System.Drawing.Size(581, 26);
             this.layoutControlItem2.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem2.TextVisible = false;
             // 
             // layoutControlItem3
             // 
-            this.layoutControlItem3.Control = this.backButton;
+            this.layoutControlItem3.Control = this.btnBack;
             this.layoutControlItem3.Location = new System.Drawing.Point(0, 0);
             this.layoutControlItem3.Name = "layoutControlItem3";
             this.layoutControlItem3.Size = new System.Drawing.Size(28, 26);
             this.layoutControlItem3.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem3.TextVisible = false;
+            // 
+            // layoutControlItem4
+            // 
+            this.layoutControlItem4.Control = this.btnOpen;
+            this.layoutControlItem4.Location = new System.Drawing.Point(28, 0);
+            this.layoutControlItem4.Name = "layoutControlItem4";
+            this.layoutControlItem4.Size = new System.Drawing.Size(28, 26);
+            this.layoutControlItem4.TextSize = new System.Drawing.Size(0, 0);
+            this.layoutControlItem4.TextVisible = false;
             // 
             // mvvmContext
             // 
@@ -183,7 +210,7 @@
             this.Size = new System.Drawing.Size(657, 323);
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).EndInit();
             this.layoutControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.searchControl1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemTextEdit1)).EndInit();
@@ -191,6 +218,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mvvmContext)).EndInit();
             this.ResumeLayout(false);
 
@@ -203,11 +231,13 @@
         private DevExpress.XtraGrid.GridControl gridControl;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
-        private DevExpress.XtraEditors.SearchControl searchControl1;
+        private CustomSearchControl searchControl;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraGrid.Columns.GridColumn colName;
         private DevExpress.XtraEditors.Repository.RepositoryItemTextEdit repositoryItemTextEdit1;
-        private DevExpress.XtraEditors.SimpleButton backButton;
+        private DevExpress.XtraEditors.SimpleButton btnBack;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraEditors.SimpleButton btnOpen;
+        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
     }
 }

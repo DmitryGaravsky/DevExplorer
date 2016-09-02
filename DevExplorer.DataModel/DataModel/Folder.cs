@@ -26,7 +26,12 @@
         public static readonly Folder Instance = new NewFolder();
         NewFolder() : base(null, "New Folder") { }
     }
-    //
+}
+
+namespace DevExplorer.DataModel.Extensions {
+    using System.ComponentModel;
+    using System.IO;
+
     public static class FolderExtension {
         public static bool IsNew(this Folder folder) {
             return folder is NewFolder;
@@ -45,8 +50,13 @@
             result = !info.Exists ? null : CreateFolder(special, info);
             return result != null;
         }
-        static Folder CreateFolder(bool special, System.IO.DirectoryInfo info) {
+        static Folder CreateFolder(bool special, DirectoryInfo info) {
             return special ? new SpecialFolder(info.FullName, info.Name) : new Folder(info.FullName, info.Name);
+        }
+        public static Folder AcceptFolder(this CancelEventArgs args, string path) {
+            Folder result;
+            args.Cancel = TryGetFolder(path, out result);
+            return result;
         }
     }
 }

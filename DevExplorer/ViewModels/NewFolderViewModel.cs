@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Threading.Tasks;
     using DevExplorer.DataModel;
+    using DevExplorer.DataModel.Extensions;
     using DevExplorer.DataServices;
     using DevExpress.Mvvm;
     using DevExpress.Mvvm.POCO;
@@ -36,9 +37,8 @@
             return Task.Factory.StartNew((state) =>
             {
                 var folders = BuildsFolders();
-                // Perfirm updates on UI thread
                 ((IDispatcherService)state).BeginInvoke(() =>
-                {
+                {   // Perform updates on UI thread
                     Folders = folders;
                     IsLoading = false;
                 });

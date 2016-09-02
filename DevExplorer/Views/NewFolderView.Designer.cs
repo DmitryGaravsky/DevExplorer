@@ -41,7 +41,7 @@
             this.tileView = new DevExpress.XtraGrid.Views.Tile.TileView();
             this.colImage = new DevExpress.XtraGrid.Columns.TileViewColumn();
             this.progress = new DevExpress.XtraWaitForm.ProgressPanel();
-            this.searchControl1 = new DevExpress.XtraEditors.SearchControl();
+            this.searchControl = new DevExplorer.Views.CustomSearchControl();
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.itemForProgress = new DevExpress.XtraLayout.LayoutControlItem();
@@ -51,7 +51,7 @@
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tileView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchControl1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemForProgress)).BeginInit();
@@ -80,7 +80,7 @@
             this.layoutControl1.AllowCustomization = false;
             this.layoutControl1.Controls.Add(this.gridControl);
             this.layoutControl1.Controls.Add(this.progress);
-            this.layoutControl1.Controls.Add(this.searchControl1);
+            this.layoutControl1.Controls.Add(this.searchControl);
             this.layoutControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.layoutControl1.Location = new System.Drawing.Point(0, 0);
             this.layoutControl1.Name = "layoutControl1";
@@ -152,6 +152,7 @@
             this.progress.LineAnimationElementType = DevExpress.Utils.Animation.LineAnimationElementType.Rectangle;
             this.progress.Location = new System.Drawing.Point(162, 97);
             this.progress.Name = "progress";
+            this.progress.RangeAnimationElementThickness = 2;
             this.progress.ShowCaption = false;
             this.progress.ShowDescription = false;
             this.progress.Size = new System.Drawing.Size(476, 8);
@@ -161,18 +162,19 @@
             this.progress.Visible = false;
             this.progress.WaitAnimationType = DevExpress.Utils.Animation.WaitingAnimatorType.Line;
             // 
-            // searchControl1
+            // searchControl
             // 
-            this.searchControl1.Client = this.gridControl;
-            this.searchControl1.Location = new System.Drawing.Point(162, 73);
-            this.searchControl1.Name = "searchControl1";
-            this.searchControl1.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.searchControl.Client = this.gridControl;
+            this.searchControl.Location = new System.Drawing.Point(162, 73);
+            this.searchControl.Name = "searchControl";
+            this.searchControl.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Repository.ClearButton(),
             new DevExpress.XtraEditors.Repository.SearchButton()});
-            this.searchControl1.Properties.Client = this.gridControl;
-            this.searchControl1.Size = new System.Drawing.Size(476, 20);
-            this.searchControl1.StyleController = this.layoutControl1;
-            this.searchControl1.TabIndex = 5;
+            this.searchControl.Properties.Client = this.gridControl;
+            this.searchControl.Properties.FindDelay = 250;
+            this.searchControl.Size = new System.Drawing.Size(476, 20);
+            this.searchControl.StyleController = this.layoutControl1;
+            this.searchControl.TabIndex = 5;
             // 
             // layoutControlGroup1
             // 
@@ -214,7 +216,7 @@
             // 
             // layoutControlItem2
             // 
-            this.layoutControlItem2.Control = this.searchControl1;
+            this.layoutControlItem2.Control = this.searchControl;
             this.layoutControlItem2.Location = new System.Drawing.Point(160, 71);
             this.layoutControlItem2.Name = "layoutControlItem2";
             this.layoutControlItem2.OptionsTableLayoutItem.ColumnIndex = 1;
@@ -262,7 +264,7 @@
             this.layoutControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tileView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.searchControl1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchControl.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.itemForProgress)).EndInit();
@@ -276,7 +278,7 @@
         private DevExpress.Utils.MVVM.MVVMContext mvvmContext;
         private DevExpress.XtraLayout.LayoutControl layoutControl1;
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
-        private DevExpress.XtraEditors.SearchControl searchControl1;
+        private CustomSearchControl searchControl;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraWaitForm.ProgressPanel progress;
         private DevExpress.XtraLayout.LayoutControlItem itemForProgress;

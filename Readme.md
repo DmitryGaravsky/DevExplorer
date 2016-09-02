@@ -8,11 +8,11 @@ The basic App for MVVM Tutorial.
 
 Features (Complete):
  - Multi-Tabbed environment
- - Basic keyboard and mouse navigation (Enter/BackSpace/DoubleClick)
  - Start Page with MRU folders
+ - Type to search or navigate
+ - Keyboard and mouse navigation (Enter/BackSpace/DoubleClick)
 
 Features (Planned)
- - Type to search or navigate
  - Folders Ranking (recent folders arranged based on navigation history)
  - Navigation History with search everywhere
  - Dev-Browser Mode as default: 

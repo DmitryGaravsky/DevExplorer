@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using DevExplorer.DataModel;
+    using DevExplorer.DataModel.Extensions;
 
     public class ExplorerSimpleDataModel : IExplorerDataModel {
         readonly DataModel.Services.IImagesCache cache;
@@ -77,14 +78,13 @@
             names.Add(folder.Path, folder.Name);
             RaiseRequery(new RequerySuggested<Folder>(folder));
         }
-        //
         DataModel.Services.IImagesCache IExplorerDataModel.Cache {
             get { return cache; }
         }
         public event EventHandler Requery;
         void RaiseRequery(object message) {
-            EventHandler h = Requery;
-            if(h != null) h(message, EventArgs.Empty);
+            EventHandler handler = Requery;
+            if(handler != null) handler(message, EventArgs.Empty);
         }
     }
 }
