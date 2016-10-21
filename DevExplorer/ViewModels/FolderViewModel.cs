@@ -47,15 +47,18 @@ namespace DevExplorer.ViewModels {
             get;
             set;
         }
+        protected void OnSelectedItemChanged() {
+            this.RaiseCanExecuteChanged(x => Open(null));
+        }
         public virtual IEnumerable<FolderItem> Files {
             get;
             protected set;
         }
-        protected virtual void OnFilesChanged() {
+        protected void OnFilesChanged() {
             this.RaiseCanExecuteChanged(x => x.Back());
         }
         public bool CanOpen(FolderItem item) {
-            return (item != null) && item.IsDirectory;
+            return (item != null) && item.IsDirectory && !item.IsParentFolder();
         }
         public void Open(FolderItem item) {
             Path = item.Path;

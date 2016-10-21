@@ -7,6 +7,7 @@
     using DevExplorer.ViewModels;
     using DevExpress.XtraEditors;
     using DevExpress.XtraEditors.ViewInfo;
+    using DevExpress.XtraGrid.Views.Base;
     using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 
     public partial class FolderView : XtraUserControl {
@@ -43,12 +44,14 @@
             var fluent = mvvmContext.OfType<FolderViewModel>();
             fluent.SetBinding(gridControl, gc => gc.DataSource, x => x.Files);
             //
-            fluent.SetBinding(gridView, gv => gv.FocusedRowHandle, x => x.SelectedItem,
-                    item => gridView.FindRow(item),
-                    rowHandle => gridView.GetRow(rowHandle) as FolderItem);
+            fluent.WithEvent<ColumnView, FocusedRowObjectChangedEventArgs>(gridView, "FocusedRowObjectChanged")
+                .SetBinding(x => x.SelectedItem,
+                    args => args.Row as FolderItem,
+                        (gView, entity) => gView.SetFocusedRow(entity));
             //
             fluent.WithKeys(gridView, new Keys[] { Keys.Enter, Keys.Alt | Keys.Right })
-                .KeysToCommand(x => x.Open(null), (KeyEventArgs args) => gridView.GetFocusedRow() as FolderItem);
+                .KeysToCommand(x => x.Open(null),
+                    (KeyEventArgs args) => gridView.GetFocusedRow() as FolderItem);
             fluent.WithKeys(gridView, new Keys[] { Keys.Back, Keys.Alt | Keys.Left })
                 .KeysToCommand(x => x.Back());
             fluent.WithEvent<CancelEventArgs>(searchControl, "Accept")
@@ -56,9 +59,11 @@
                     (CancelEventArgs args) => args.AcceptFolderItem(searchControl.Text));
             //
             mvvmContext.AttachBehavior<OpenByRowDoubleClick>(gridView);
+            //
             fluent.WithCommand(x => x.Back())
                 .Bind(btnBack);
             fluent.WithCommand(x => x.Open(null))
+                .Bind(btnOpen, x => x.SelectedItem)
                 .After(() => searchControl.ResetSearch());
         }
     }

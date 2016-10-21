@@ -74,6 +74,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\FolderViewModel.cs" />
     <Compile Include="ViewModels\NewFolderViewModel.cs" />
+    <Compile Include="Views\Controls\ColumnViewExtension.cs" />
     <Compile Include="Views\Controls\CustomSearchControl.cs">
       <SubType>Component</SubType>
     </Compile>
